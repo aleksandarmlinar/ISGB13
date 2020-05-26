@@ -10,7 +10,7 @@ function init(){
 
 
 function handleSearchFormSubmit(evt){
-    evt.preventDefault
+    evt.preventDefault()
 };
 
 

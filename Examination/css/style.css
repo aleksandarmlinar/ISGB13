@@ -1,0 +1,21 @@
+/*css*/
+*{
+    box-sizing: border-box;
+}
+
+
+body{
+    background-color: #fff;
+
+}
+
+#wrapper{
+    display: grid;
+
+}
+
+.cell{
+    margin: 2px 0;
+    background-color: lightblue;
+    padding: 10px;
+}
