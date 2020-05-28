@@ -24,7 +24,7 @@ function search(query, container){
     container.innerHTML = '';
 
 	//spotify api //
-    var accessToken = 'BQBri9fGiEVgBgBAL6I94l5DgebZTzZlqX8rkkisicvFacgBXakU1Z00l_JW9e9lGi_hPOfEziHpDrsH37Pt1DOM_oDwLuF5AabyCnNYN7WduieW1QDktISp3bMZcCrf5QK1LFGFuqc6HXqeF7585bgXVlrnwuJa5BygNe7s5X7eIHxia8JblqSumXpmR9fYNDn8a1bW9L5ohCDLOovXOXttA7u5YcFVzLHVID9-96CcAr1FJTa0IdXp6lMMLv1WNgN0uqK46dOtIIxQPqVkqZeP';    
+    var accessToken = 'BQDqUVPNDXQfZ6xTspo54pclqTQifXNzzGMsehpKu0DQWeKrRPZY3NhmkPKK1xAZh7DcJyqO-edes8RKI9GYFKdrbYw12RxyJVoVt5qMQHg3siB9DZHnWz4O5mhhH_tS15eZN4DBy9RmQAps28091fSwaChphrHuFp9eIf898hHTYz5b_7l4gSbtkezptpK3iv1uuPrVw5ViMM1uzT5XlqxwT-rvRWIhPA_MqBIZudxEoR5abcKGbe9nKJmc2UaEgmqpCEBNxRW8ti42Ed28UG4y';    
     window.fetch('https://api.spotify.com/v1/search?limit=50&q=' + encodeURIComponent(query) + '&type=track', {
             headers: {
                 'Accept': 'application/json',
@@ -50,10 +50,14 @@ function search(query, container){
 };
 
     function createGridCell(musicData, container){
-
+		
+		document.querySelector('.wrapper').style.display = 'grid';
+		document.querySelector('.content').style.display = 'none';
+		var closeBtn = document.querySelector('#closeBtn');
 
         for(let i= 0; i < musicData.items.length; i++){
-            let cellRef = document.createElement('div');
+            
+			let cellRef = document.createElement('div');
             let cellRefAttr = document.createAttribute('class');
            
             cellRefAttr.value = 'cell';
@@ -75,11 +79,35 @@ function search(query, container){
             cellRef.appendChild(artistRef);
             cellRef.appendChild(nameRef);
 
-            cellRef.addEventListener('click', (e)=>{
-                document.querySelector('.content').style.opacity = '1';
-                document.querySelector('.content').style.height = '1000px';
+            cellRef.addEventListener('click', ()=>{
+                document.querySelector('.content').style.display = 'block';
+				container.style.display = 'none';
+				closeBtn.style.display = 'block';
+				detailedSongInfo(songName, artistName);
             })
 
         };
 
+		closeBtn.addEventListener('click', closePanel);
+
     };
+
+	function detailedSongInfo(songName, artistName){
+		let contentRef= document.querySelector('.content');
+		let artistNameRef = document.createElement('h1');
+		let songNameRef = document.createElement('h2');
+
+		artistNameRef.textContent = songName;
+		songNameRef.textContent = artistName;
+
+		contentRef.appendChild(artistNameRef);
+		contentRef.appendChild(songNameRef);
+
+	}
+
+	function closePanel(){
+		document.querySelector('.content').style.display = 'none';
+		document.querySelector('.wrapper').style.display = 'grid';
+		document.querySelector('#closeBtn').style.display = 'none';
+		document.querySelector('.content').innerHTML = '';
+	}
