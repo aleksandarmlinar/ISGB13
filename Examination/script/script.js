@@ -24,7 +24,7 @@ function search(query, container){
     container.innerHTML = '';
 
 	//spotify api //
-    var accessToken = 'BQA2he3o0O7Lmbe5vhxzuVcdXQmuwmrdAPikT-2sNOPGSvlD5iIviL0wiZ-kAzOXnXnKkPS6EgxwpFuGMQyJwDCw8LqMPN7YhOLyG_vbAVLYKmDLyHZgwsO8ZVQkbwZWN59JaWlzrt5vdG0-PdB_Z8-xwfoI6tIWMfVurJOkyin854geeO2gzKqfBYTT7TzYq5KZaORhC8iyKmALSbc8KnEC4ImGZU0gRnwjn9txoIx1HhuvkwJqEZ5iLfA5i8cw7S2j9CqDUyMoAD214iB6iDsb';    
+    var accessToken = 'BQBri9fGiEVgBgBAL6I94l5DgebZTzZlqX8rkkisicvFacgBXakU1Z00l_JW9e9lGi_hPOfEziHpDrsH37Pt1DOM_oDwLuF5AabyCnNYN7WduieW1QDktISp3bMZcCrf5QK1LFGFuqc6HXqeF7585bgXVlrnwuJa5BygNe7s5X7eIHxia8JblqSumXpmR9fYNDn8a1bW9L5ohCDLOovXOXttA7u5YcFVzLHVID9-96CcAr1FJTa0IdXp6lMMLv1WNgN0uqK46dOtIIxQPqVkqZeP';    
     window.fetch('https://api.spotify.com/v1/search?limit=50&q=' + encodeURIComponent(query) + '&type=track', {
             headers: {
                 'Accept': 'application/json',
