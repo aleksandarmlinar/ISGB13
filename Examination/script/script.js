@@ -13,7 +13,7 @@ function hanteraSokForm(evt){
     evt.preventDefault();
 
     let searchField = document.querySelector('#search');
-    let gridRef = document.querySelector('#wrapper');
+    let gridRef = document.querySelector('.wrapper');
     
     search(searchField.value, gridRef)
 };
@@ -23,74 +23,63 @@ function search(query, container){
     //Tömmer rutan på gammalt resultat
     container.innerHTML = '';
 
-    window.fetch('http://ws.audioscrobbler.com/2.0/?method=track.search&track='+encodeURIComponent(query)+'&limit=40&api_key=3293cc390d016447ace4254e0e32696b&format=json')
+	//spotify api //
+    var accessToken = 'BQA2he3o0O7Lmbe5vhxzuVcdXQmuwmrdAPikT-2sNOPGSvlD5iIviL0wiZ-kAzOXnXnKkPS6EgxwpFuGMQyJwDCw8LqMPN7YhOLyG_vbAVLYKmDLyHZgwsO8ZVQkbwZWN59JaWlzrt5vdG0-PdB_Z8-xwfoI6tIWMfVurJOkyin854geeO2gzKqfBYTT7TzYq5KZaORhC8iyKmALSbc8KnEC4ImGZU0gRnwjn9txoIx1HhuvkwJqEZ5iLfA5i8cw7S2j9CqDUyMoAD214iB6iDsb';    
+    window.fetch('https://api.spotify.com/v1/search?limit=50&q=' + encodeURIComponent(query) + '&type=track', {
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + accessToken
+            }
+        })
     .then((response)=>{
         return response.json();
     })
     .then((data)=>{
-        console.log(data);
-        let datan = Object.values(data);
-        for (let musicData of datan){ //kolla upp detta ordentligt! :)
-            createGridCell(musicData, container);
-        //console.log(musicData.trackmatches.track[1].name);
-
+        //console.log(data.tracks.items[1].artists[0].name);
         
+        let dataRef = Object.values(data);
+        for(let musicData of dataRef){
+            console.log(musicData);
+            console.log(musicData.items[0].name);   
+            createGridCell(musicData, container);
+       
         };
     });
-    
 
+};
 
     function createGridCell(musicData, container){
-            //container.appendChild(wrapper);
-        
-        for(let i= 0; i < musicData.trackmatches.track.length; i++){
+
+
+        for(let i= 0; i < musicData.items.length; i++){
             let cellRef = document.createElement('div');
             let cellRefAttr = document.createAttribute('class');
+           
             cellRefAttr.value = 'cell';
             cellRef.setAttributeNode(cellRefAttr);
+            cellRef.setAttribute('style', 'background-image: url(' + '"' + musicData.items[i].album.images[0].url + '"); background-size: cover;');
+            
+            let artistRef = document.createElement('h2');
             let nameRef = document.createElement('h5');
-            let urlRef = document.createElement('h6');
-            let imgRef = document.createElement('IMG');
-            imgRef.setAttribute("width", "304");
-            imgRef.setAttribute("height", "228");
 
-            let songName = musicData.trackmatches.track[i].name;
-            let songUrl = musicData.trackmatches.track[i].url;
-            let imgUrl = musicData.trackmatches.track[i].image[3]['#text'];
-            imgRef.setAttribute("src", imgUrl);
-            //console.log(imgUrl);
-            nameRef.innerHTML= songName; 
-            urlRef.innerHTML = "<a href =" + '"' + songUrl +'" target="_blank"' + ">" + 'Klicka här' + "</a>";
-            //imgRef.innerHTML = "<img src=" + imgUrl + ">";
-            // songName = musicData.trackmatches.track[i].name;
-            //namn.innerHTML = "<a href =" + '"' + songUrl +'" target="_blank"' + "></a>";
+
+            let songName = musicData.items[i].name;
+            let artistName = musicData.items[i].artists[0].name;
+
+
+            nameRef.innerHTML= songName;
+            artistRef.innerHTML = artistName;
+
             container.appendChild(cellRef);
+            cellRef.appendChild(artistRef);
             cellRef.appendChild(nameRef);
-            cellRef.appendChild(urlRef);
-            cellRef.appendChild(imgRef);
+
+            cellRef.addEventListener('click', (e)=>{
+                document.querySelector('.content').style.opacity = '1';
+                document.querySelector('.content').style.height = '1000px';
+            })
 
         };
 
     };
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-    /*// hämta länken, när vi får ett resultat så har vi ngt att jobba med.
-    //music api: 3293cc390d016447ace4254e0e32696b
-    window.fetch('http://ws.audioscrobbler.com/2.0/?method=chart.gettopartists&api_key=3293cc390d016447ace4254e0e32696b&format=json').then((response)=>{
-        //console.log(response);
-        return response.json();
-    }).then ((data) =>{
-        console.log(data);  
-    });
-    */
-
-};
