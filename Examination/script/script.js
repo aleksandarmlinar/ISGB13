@@ -67,7 +67,16 @@ function createGridCell(musicData, container){
     
     //Gömmer resultat och visar info om låten med en preview och låttexten
     //Gömmer stängknappen
-    document.querySelector('.wrapper').style.display = 'grid';
+
+    //Responsive beroende på storleken om det blir grid eller block.
+    if (window.matchMedia("(max-width: 700px)").matches) {
+        /* The viewport is less than, or equal to, 700 pixels wide */
+        document.querySelector('.wrapper').style.display = 'block';
+      } else {
+        /* The viewport is greater than 700 pixels wide */
+        document.querySelector('.wrapper').style.display = 'grid';
+      }
+
     document.querySelector('.content').style.display = 'none';
     document.querySelector('#closeBtn').style.display = 'none';
     //Skapar refens till stängknappen
