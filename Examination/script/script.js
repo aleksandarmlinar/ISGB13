@@ -199,7 +199,7 @@ function searchLyrics(infoData){
 function lyricsData(xmlString){
     console.log('Handle funkar');
     
-    // Parsa data
+    // Parse data ifrån sträng till DOM 
     let parser = new window.DOMParser();
     let xmlDOM = parser.parseFromString(xmlString, 'application/xml');
     console.log(xmlDOM);

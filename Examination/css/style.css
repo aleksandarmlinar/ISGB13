@@ -10,7 +10,7 @@ body{
     height: 100vh;
     margin: 0;
     padding: 6px;
-    background: url("https://cdn.pixabay.com/photo/2015/05/15/14/50/concert-768722_1280.jpg") no-repeat;
+    background: url("../images/concert-768722_1920.jpg") no-repeat;
     background-size: cover;
 }
 
