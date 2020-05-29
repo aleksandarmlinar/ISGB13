@@ -7,8 +7,11 @@
 body{
     font-family: 'Ubuntu', sans-serif;
     background-color: #fff;
+    height: 100vh;
     margin: 0;
-    padding: 10px;
+    padding: 6px;
+    background: url("https://cdn.pixabay.com/photo/2015/05/15/14/50/concert-768722_1280.jpg") no-repeat;
+    background-size: cover;
 }
 
 h2, h5{
@@ -33,6 +36,8 @@ p{
 
 label {
     font-size: 2rem;
+    color: white;
+    font-weight: bold;
 }
 
 #search {
@@ -42,7 +47,7 @@ label {
     border-radius: 20px;
     padding: 20px;
     background-color: #e4e4e4;
-    margin-right: -105px;
+    margin: 10px -105px 0 0 ;
 }
 
 button {
@@ -78,11 +83,10 @@ button {
 
 .content{
     width: 99%;
-    height: 100vh;
+    height: 100%;
     display: grid;
     grid-template-columns: repeat(2, 50%);
     position: absolute;
-    border-top: 1px solid;
     margin-top: 10px;
 	padding: 10px;
     background-color: #fff;
@@ -93,7 +97,7 @@ button {
     display: grid;
 	grid-template-columns: repeat(5, 20%);
     grid-column-gap: 2px;
-    grid-row-gap: 2px;
+    grid-row-gap: 4px;
 
 }
 
@@ -103,7 +107,8 @@ button {
     min-height: 300px;
     background-color: #e6e6e6;
     padding: 10px 10px 10px 0;
-	cursor: pointer;
+    cursor: pointer;
+    border: 6px solid #fff;
 }
 
 video {
@@ -118,4 +123,3 @@ video {
     border-radius: 50px;
     margin-top: 10px;
 }
-

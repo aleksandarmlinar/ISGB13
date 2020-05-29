@@ -1,14 +1,20 @@
 'use strict'
-//lyssnare för hela sidan
+
+//Här har vi en lyssnare för sökformulär, dvs denna lysnnar efter händelser i sökrutan och anropar funktionen init.
 window.addEventListener('load', init);
 
+
+//Lyssnar efter händelser i sökrutan och anropar funtionen hanteraSokForm
 function init(){
 
     let form = document.querySelector("#search-form");
     form.addEventListener('submit', hanteraSokForm);
+    document.querySelector('.content').style.display = 'none';
+
 
 };
 
+//Tar emot händelseobjektet och skickar värdet vidare till functionen search tillsammans med referensen till en div med klassen .wrapper
 function hanteraSokForm(evt){
     evt.preventDefault();
 
@@ -18,15 +24,22 @@ function hanteraSokForm(evt){
     search(searchField.value, gridRef)
 };
 
-
+// Vi tar emot två paramaterar som vi använder vidare i sökfunktionen 
 function search(query, container){
+    
     //Tömmer rutan på gammalt resultat
     container.innerHTML = '';
+    //Gömmer div elementet content varje gång vi tycker på search-knappen
     document.querySelector('.content').style.display = 'none';
 
 
-	//spotify api - hämta Json Data och skicka det vidare till funktionen createGridCell bearbetar den.
-    var accessToken = 'BQCwEUbUJgJcupK5HFQkfuT4ALj0DliDRNek_dnjqKf2BqoVyJw_kvyeQdg8ZlK81AUsswoWA_bevh5Jflok7VVdR-m_fUgeQ4MKt8xmLFG8Hcvm7eCSZbfTcac1zzicIlybtgmm9ZF4REAeFDv3NjunqDCybg_GRA4_OjfVyIP8BJ2zUT_EgCdtLwuDEncWAV8lz2TkvJyQtQ0qFXJ-KeTtqtngrCLbZhGZUnSySZCQRy9BATsWbmPGvDinu1x-fl698IbNiPkgXf03w_Vk1Mlq';    
+    //Spotify json data - hämta Json Data och skicka det vidare till funktionen createGridCell som bearbetar datan.
+    // Acces token måste bytas varje timme
+    var accessToken = 'BQB09Ra9NHjgLHGSAFhtZaSp_vl0pcOsS4e3LNYWCTvxAEAqiPu1fmwADUXs9xKluMwr7C99bl2BesIJhKfMXmrSxpQq1oa36ScN68NPz_8b1oX8ZA8my0AnTD5T9nkRPxyShDEbZAEPDeDx1YmZdiw2kjVxLLBFFllp2wls65zKJ7dvQ0Uqk221vSJQcvbNKwINGzIAC9FUwIipepn_DZprJmVI4hwwrpjX6_5p8HN3cOubvwdz5skGHuW3TRl8Xh9roAQmX35_PlSwbsxacj0d';    
+    
+    
+    // vi gör asynkrona anropet till spotifys api och lägger in värdet från sökrutan som vi fick via query 
+    // encodeURIComponent ersätter alla specialtecken med det som man får använda i URL (%20 tex)
     window.fetch('https://api.spotify.com/v1/search?limit=50&q=' + encodeURIComponent(query) + '&type=track', {
             headers: {
                 'Accept': 'application/json',
@@ -34,62 +47,54 @@ function search(query, container){
                 'Authorization': 'Bearer ' + accessToken
             }
         })
+        // Ifall allt är ok så tar vi emot ett response och returnerar (plockar ut det vi behöver) json data.
     .then((response)=>{
         return response.json();
-    })
+    }) // Om vi lyckats att plocka upp json delen kör vi data från den biten vi plockade ut förr.
     .then((data)=>{
-        //console.log(data.tracks.items[1].artists[0].name);
-        
         let dataRef = Object.values(data);
+        // Vi loopar igenom resultatet och skickar iväg objekten vidare med createGridCell funktionen.
         for(let musicData of dataRef){
             console.log(musicData);
             createGridCell(musicData, container);
        
         };
     });
-
-        // function searchLyrics(artist){
-
-        //         // hämta låttexter
-        //         window.fetch('https://cors-anywhere.herokuapp.com/http://api.chartlyrics.com/apiv1.asmx/SearchLyricDirect?artist='+artist+'&song='+encodeURIComponent(query))
-        //         .then(response => response.text())
-        //         .then(lyricsData);
-        //         //console.log(lyricsData);
-        // }
-
-
-
-
 };
 
-
+// i denna funktion skapar vi en grid med resultat som vi fick ifrån json data från Spotify.
 function createGridCell(musicData, container){
     
+    //Gömmer resultat och visar info om låten med en preview och låttexten
+    //Gömmer stängknappen
     document.querySelector('.wrapper').style.display = 'grid';
     document.querySelector('.content').style.display = 'none';
     document.querySelector('#closeBtn').style.display = 'none';
-    
+    //Skapar refens till stängknappen
     var closeBtn = document.querySelector('#closeBtn');
-
+    
+    //Här loopar vi igenom resulatet och presenterar det till användaren
     for(let i= 0; i < musicData.items.length; i++) {
         
-        // Skapa en ruta som vi sen fyller med info från sökfältet.
+        // Skapa en div element som vi sen fyller med info från sökfältet.
+        // Ger div-en en class cell och en bakgrund som motsvarar låtens album.
         let cellRef = document.createElement('div');
-        let cellRefAttr = document.createAttribute('class');
-        cellRefAttr.value = 'cell';
-        cellRef.setAttributeNode(cellRefAttr);
+        cellRef.setAttribute('class', 'cell');
         cellRef.setAttribute('style', 'background-image: url(' + '"' + musicData.items[i].album.images[0].url + '"); background-size: cover;');
         
+        //skapar referenser till Artistnamn, låtnamn etc (DOM)
         let artistRef = document.createElement('h2');
         let nameRef = document.createElement('h5');
         let previewRef = document.createElement('div');
 
-
+        //Tilldelal data ifrån json
         let songName = musicData.items[i].name;
         let artistName = musicData.items[i].artists[0].name;
         let previewUrl = musicData.items[i].preview_url;
         let imageCover = musicData.items[i].album.images[1].url;
 
+        
+        // Ett objekt by ref som jag skickar vidare till låtsidan med lyrics
         let infoData = {
 
             songname: songName,
@@ -103,12 +108,14 @@ function createGridCell(musicData, container){
         artistRef.textContent = artistName;
         previewRef.innerHTML = "<iframe src=" + previewUrl + "></iframe>";
         
-
+        //Lägger elemeterna i respektive objekt i DOM-en
         container.appendChild(cellRef);
         cellRef.appendChild(artistRef);
         cellRef.appendChild(nameRef);
-        //cellRef.appendChild(previewRef);
 
+       
+        // Här kopplar vi en ruta med låtinfo med respektive låtinfo sida (eller snarare sagt en popup(som inte poppar upp:))).
+        //
         cellRef.addEventListener('click', ()=>{
             document.querySelector('.content').style.display = 'grid';
             container.style.display = 'none';
@@ -118,23 +125,30 @@ function createGridCell(musicData, container){
         })
 
     };
-
+    // Lysnare efter stängknappen
     closeBtn.addEventListener('click', closePanel);
 
 };
 
+
+//Denna funktion gömmer rutnätet med resultat och visar låtinfo, preview och låttexten.
+// Funktionen tar emot infoData objektet som jag nämnde ovan.
 function detailedSongInfo(infoData){
     
+    // Lite referenser...
     let contentRef = document.querySelector('.content');
     let cellOneRef = document.createElement('div');
     cellOneRef.setAttribute('class', 'cell-1');
     
+    // Lite referenser till... Pretty self explanatory för er som kan.
     let artistNameRef = document.createElement('h1');
     let songNameRef = document.createElement('h3');
     let previewSongRef = document.createElement('div');
+    
     previewSongRef.setAttribute('class', 'no-song-info');
     let imageCoverRef = document.createElement('img');
     
+    // Hämtar info och lagrar i variabler
     artistNameRef.textContent = infoData.artistname;
     cellOneRef.appendChild(artistNameRef);
     
@@ -147,18 +161,21 @@ function detailedSongInfo(infoData){
     
     //Kontrollera om förhandsvisning för låten finns, om inte, skriv ett meddelande till användaren.
     if(infoData.previewurl != null){
+        //Tar bort gula bakgrunden ifall ljudklippet finns då de finns en svart bakgrund som jag inte kunde ta bort i iframe-en
         previewSongRef.removeAttribute('class', 'no-song-info');
         previewSongRef.innerHTML = "<iframe src=" + infoData.previewurl + "></iframe>";
 
     } else {
         previewSongRef.textContent = "Unfortunately we don't have an audio  preview for this song.";
     }   
+    
+    // Lägger till sista i DOM-en
     cellOneRef.appendChild(previewSongRef);  
     contentRef.appendChild(cellOneRef);
     
     
 }
-
+// Stäng låtinfo panelen och går tillbaka till resultatet (gul knapp i högra hörnet)
 function closePanel(){
     document.querySelector('.content').style.display = 'none';
     document.querySelector('.wrapper').style.display = 'grid';
@@ -166,7 +183,9 @@ function closePanel(){
     document.querySelector('.content').innerHTML = '';
 }
     
-
+// Denna använder Spotifys jsDOM för att sen ta emot Artist och Låt som sen läggs in och söker igenom chartlyrics.coms dataset efter dessa
+// titlar som är presenterade som XML. Återigen gör vi asynkrona anropet till denna gång chartlyrics.coms api och om allt är ok me respons 
+// och promise tar vi emot data från de. Och anropar lyricsData.
 function searchLyrics(infoData){
     console.log(infoData);
     // hämta låttexter
@@ -176,10 +195,11 @@ function searchLyrics(infoData){
     //console.log(lyricsData);
 }
 
-    
+ // Här tar vi emot data och placerar i DOM-en tillsammans med data från Spotify. 
 function lyricsData(xmlString){
     console.log('Handle funkar');
     
+    // Parsa data
     let parser = new window.DOMParser();
     let xmlDOM = parser.parseFromString(xmlString, 'application/xml');
     console.log(xmlDOM);
@@ -195,13 +215,13 @@ function lyricsData(xmlString){
     let songRef = xmlDOM.querySelector('Lyric');
     let headerRef = xmlDOM.querySelector('LyricSong');
 
-    
+    // Ordnar hierarkin i DOM-en
     contentRef.appendChild(cellTwoRef);
     cellTwoRef.appendChild(lyricsHeader);
     lyricsHeader.appendChild(headerRef);
     cellTwoRef.appendChild(pRef);
     
-    
+    // Ifall låttexten inte finns, skriver vi till användaren infå om att det inte finns.
     if(songRef.textContent != '') {
          pRef.appendChild(songRef);
     } 
