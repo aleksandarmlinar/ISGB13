@@ -1,4 +1,4 @@
-/*css*/
+/*#ffba00*/
 *{
     box-sizing: border-box;
 }
@@ -11,10 +11,19 @@ body{
     padding: 10px;
 }
 
-h1, h2, h3, h4, h5, h6{
+h2, h5{
     margin: 0;
     background-color: rgba(255, 255, 255, 0.9);
     padding: 6px;
+}
+
+h1, h3, h4, h6{
+	margin: 10px 0;
+}
+
+p{
+    width: 400px;
+    white-space: break-spaces;
 }
 
 .form{
@@ -28,14 +37,56 @@ label {
 
 #search {
     width: 80%;
+    height: 40px;
+    border: none;
+    border-radius: 20px;
+    padding: 20px;
+    background-color: #e4e4e4;
+    margin-right: -105px;
+}
+
+button {
+    color: white;
+    background: #ffba00;
+    height: 40px;
+    border: none;
+    border-radius: 20px;
+    width: 100px;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 0;
+}
+
+#closeBtn{
+	display: none;
+	background-color: #ffba00;
+	border: none;
+	color: white;
+	width: 70px;
+	height: 70px;
+	position: absolute;
+	top: 110px;
+	right: 6px;
+	text-align: center;
+	text-decoration: none;
+	font-weight: bold;
+	border-radius: 35px;
+	margin: 10px;
+	cursor: pointer;
+	z-index: 9999;
 }
 
 .content{
-    width: 100%;
+    width: 99%;
     height: 100vh;
-    opacity: 0;
-    background-color: red;
-    transition: 1s ease;
+    display: grid;
+    grid-template-columns: repeat(2, 50%);
+    position: absolute;
+    border-top: 1px solid;
+    margin-top: 10px;
+	padding: 10px;
+    background-color: #fff;
+    transition: .2s ease;
 }
 
 .wrapper{
@@ -52,4 +103,19 @@ label {
     min-height: 300px;
     background-color: #e6e6e6;
     padding: 10px 10px 10px 0;
+	cursor: pointer;
 }
+
+video {
+    background-color: brown;
+}
+
+.no-song-info {
+    background-color: #ffba00;
+    width: 300px;
+    padding: 20px;
+    color: #fff;
+    border-radius: 50px;
+    margin-top: 10px;
+}
+
