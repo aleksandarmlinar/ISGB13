@@ -68,12 +68,10 @@ function createGridCell(musicData, container){
     //Gömmer resultat och visar info om låten med en preview och låttexten
     //Gömmer stängknappen
 
-    //Responsive beroende på storleken om det blir grid eller block.
-    if (window.matchMedia("(max-width: 700px)").matches) {
-        /* The viewport is less than, or equal to, 700 pixels wide */
+    //Responsive beroende på storleken om det blir grid eller block. Inspiration hittad hos W3 Schools
+    if (window.matchMedia("(max-width: 800px)").matches) {
         document.querySelector('.wrapper').style.display = 'block';
       } else {
-        /* The viewport is greater than 700 pixels wide */
         document.querySelector('.wrapper').style.display = 'grid';
       }
 
@@ -126,7 +124,12 @@ function createGridCell(musicData, container){
         // Här kopplar vi en ruta med låtinfo med respektive låtinfo sida (eller snarare sagt en popup(som inte poppar upp:))).
         //
         cellRef.addEventListener('click', ()=>{
-            document.querySelector('.content').style.display = 'grid';
+            //Responsive beroende på storleken om det blir grid eller block. Inspiration hittad hos W3 Schools
+            if (window.matchMedia("(max-width: 800px)").matches) {
+                document.querySelector('.content').style.display = 'block';
+              } else {
+                document.querySelector('.content').style.display = 'grid';
+              }
             container.style.display = 'none';
             closeBtn.style.display = 'block';
             detailedSongInfo(infoData);
@@ -149,7 +152,7 @@ function detailedSongInfo(infoData){
     let cellOneRef = document.createElement('div');
     cellOneRef.setAttribute('class', 'cell-1');
     
-    // Lite referenser till... Pretty self explanatory för er som kan.
+    // Lite referenser till... Pretty self explanatory för dom som kan.
     let artistNameRef = document.createElement('h1');
     let songNameRef = document.createElement('h3');
     let previewSongRef = document.createElement('div');
@@ -187,8 +190,15 @@ function detailedSongInfo(infoData){
 // Stäng låtinfo panelen och går tillbaka till resultatet (gul knapp i högra hörnet)
 function closePanel(){
     document.querySelector('.content').style.display = 'none';
-    document.querySelector('.wrapper').style.display = 'grid';
-    document.querySelector('#closeBtn').style.display = 'none';
+    
+    //Responsive beroende på storleken om det blir grid eller block. Inspiration hittad hos W3 Schools
+    if (window.matchMedia("(max-width: 800px)").matches) {
+        document.querySelector('.wrapper').style.display = 'block';
+      } else {
+        document.querySelector('.wrapper').style.display = 'grid';
+      }
+    
+      document.querySelector('#closeBtn').style.display = 'none';
     document.querySelector('.content').innerHTML = '';
 }
     
