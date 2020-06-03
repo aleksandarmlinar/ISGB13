@@ -18,7 +18,7 @@ body{
     height: 100%;
     margin: 0;
     padding: 6px;
-    background: url("../images/concert-768722_1920.jpg") no-repeat;
+    background: url("../images/concert-768722_1920.jpg") center center fixed no-repeat;
     background-size: cover;
 }
 
@@ -90,13 +90,14 @@ button {
 }
 
 .content{
-    width: 99%;
-    height: 100%;
+    width: 100%;
+    height: auto;
+    min-height: 100vh;
     display: -ms-grid;
     display: grid;
     -ms-grid-columns: (50%)[2];
     grid-template-columns: repeat(2, 50%);
-    position: absolute;
+    position: relative;
     margin-top: 10px;
 	padding: 10px;
     background-color: #fff;

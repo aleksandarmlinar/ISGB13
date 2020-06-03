@@ -35,7 +35,7 @@ function search(query, container){
 
     //Spotify json data - hämta Json Data och skicka det vidare till funktionen createGridCell som bearbetar datan.
     // Acces token måste bytas varje timme
-    var accessToken = 'BQDjnx6mi_6zXga7-6vMUjpkP8DLV3S_7tEG6vF7gHB6kLYVYayuiw6_1ZsPQT_wkQMdetl9Y_v-dLV_5a7gNXKOIvF5sQC4gm0p5Vzf1brOnTTiCpNUqtFRNSiV6fnpIFamwo8yI6H-gIQkpqQLWoP8U8_u7gXJhRwljTmL26OMkcjFGraboO5sXud2gVexgZOQ70xZ5xDH2yLgXkvgEhpqPFp5JQg91M_rnunHvZOTSANwOf-336IRD_AEFhkf07bhzrrOO_7JWub4jne0aH-l';    
+    var accessToken = 'BQAEzaO5jZhdTdL-C4w3L7A5sdDZOWWqECj_zJElbjlgy_rh3mOp1Fcr_abHWqAlYbWKrqX7Np2FyMmz4kC_OhPFu5uQrsLyoF77Tu4mpaxWPlSMRrp6zQ0vNSWCZPQ7DCdoQ-hk5i2bMI0zEMDei-BRY3t4TA2ZIXbsDssXvk6uY7yvj_akolkMgyrAfdu9hdfGx94l44NzZofAb6lo6fc51zLZA8mBcA_9fF84yVxdSZbK9Y2i2IYurJ6mUO9pvW-RiAqTxT5UnvDJcHmKav4_';    
     
     
     // vi gör asynkrona anropet till spotifys api och lägger in värdet från sökrutan som vi fick via query 
